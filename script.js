@@ -9,25 +9,18 @@ const personagemHTML = (name, image) => `
 
 const gerarValorAleatorio = () => Math.floor(Math.random() * 671);
 
-let arrayIdPersonagens = [...Array(4).keys()].map(() => gerarValorAleatorio())
+const arrayIdPersonagens = [...Array(4).keys()].map(() => gerarValorAleatorio())
 
-let pegarPersonagem = () => {
-    return fetch(`https://rickandmortyapi.com/api/character/${arrayIdPersonagens}`, {
-        method: 'GET',
-        headers: {
-            Accept: 'application/json',
-            "content-type": 'application/json'
-        }
-    })
-    .then((response)=> response.json())
-    .then((data) => {
-        const personagens = data;
-        const personagensHTML = [...personagens].reduce((acc, crr) => {
-            acc += personagemHTML(crr.name, crr.image)
-            return acc;
-        }, '')
-        mainHTML.innerHTML = personagensHTML;
-    });
+const URL = `https://rickandmortyapi.com/api/character`
+
+const pegarPersonagem = async (URL, param) => {
+    const result = await fetch(`${URL}/${param}`)
+    const personagens = await result.json();
+    const personagensHTML = [...personagens].reduce((acc, crr) => {
+        acc += personagemHTML(crr.name, crr.image)
+        return acc;
+    }, '')
+    mainHTML.innerHTML = personagensHTML;
 }
 
-pegarPersonagem()
+pegarPersonagem(URL, arrayIdPersonagens)
