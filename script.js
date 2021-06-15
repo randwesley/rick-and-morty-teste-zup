@@ -14,13 +14,19 @@ const arrayIdPersonagens = [...Array(4).keys()].map(() => gerarValorAleatorio())
 const URL = `https://rickandmortyapi.com/api/character`
 
 const pegarPersonagem = async (URL, param) => {
-    const result = await fetch(`${URL}/${param}`)
-    const personagens = await result.json();
-    const personagensHTML = [...personagens].reduce((acc, crr) => {
-        acc += personagemHTML(crr.name, crr.image)
-        return acc;
-    }, '')
-    mainHTML.innerHTML = personagensHTML;
-}
+    let html = ''
+    try{
+      const result = await fetch(`${URL}/${param}`)
+      const personagens = await result.json();
+      const personagensHTML = [...personagens].reduce((acc, crr) => {
+          acc += personagemHTML(crr.name, crr.image)
+          return acc;
+      }, '');
+      html = personagensHTML;
+    } catch(e){
+        html = `<h1>Request error - ${e} </h1>`;
+    }
+      mainHTML.innerHTML = html;
+  }
 
 pegarPersonagem(URL, arrayIdPersonagens)
