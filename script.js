@@ -1,25 +1,25 @@
-const mainHTML = document.querySelector('main')
+const mainHTML = document.querySelector('main');
 const personagemHTML = (name, image) => `
 <section>
     <figure>
         <img src="${image}" alt="${name}">
         <figcaption class="nome-personagem">${name}</figcaption>
     </figure>
-</section>`
+</section>`;
 
 const gerarValorAleatorio = () => Math.floor(Math.random() * 671);
 
-const arrayIdPersonagens = [...Array(4).keys()].map(() => gerarValorAleatorio())
+const arrayIdPersonagens = [...Array(4).keys()].map(() => gerarValorAleatorio());
 
-const URL = `https://rickandmortyapi.com/api/character`
+const URL = `https://rickandmortyapi.com/api/character`;
 
 const pegarPersonagem = async (URL, param) => {
-    let html = ''
+    let html = '';
     try{
-      const result = await fetch(`${URL}/${param}`)
+      const result = await fetch(`${URL}/${param}`);
       const personagens = await result.json();
       const personagensHTML = [...personagens].reduce((acc, crr) => {
-          acc += personagemHTML(crr.name, crr.image)
+          acc += personagemHTML(crr.name, crr.image);
           return acc;
       }, '');
       html = personagensHTML;
@@ -29,4 +29,4 @@ const pegarPersonagem = async (URL, param) => {
       mainHTML.innerHTML = html;
   }
 
-pegarPersonagem(URL, arrayIdPersonagens)
+pegarPersonagem(URL, arrayIdPersonagens);
